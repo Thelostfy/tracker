@@ -1,0 +1,118 @@
+table {
+  border-collapse: collapse;
+    border-radius: 20px;
+
+}
+
+th,
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+    border-radius: 20px;
+
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* .blue {
+  background-color: blue;
+  color: white;
+}
+
+.red {
+  background-color: red;
+  color: white;
+} */
+
+#Main {
+  /* area */
+  width: 1000px;
+  height: auto;
+
+  /* Border */
+  border: 1px black solid;
+  border-radius: 20px;
+
+  /* align center */
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+
+
+}
+
+#total {
+
+  height: 120px;
+  display: inline-flex;
+  border-bottom: black 1px dashed;
+  padding-left: 10px ;
+}
+
+#totalIncome,
+#Balance,
+#totalExpencive {
+  /* area */
+  width: 300px;
+  height: 100px;
+
+  /* border */
+  border: black 1px solid;
+  border-radius: 20px;
+
+
+  /* Display */
+  display: inline-flex;
+  margin-left: 20px;
+  margin-top: 10px;
+
+  text-align: center;
+  align-items: center;
+
+
+
+}
+
+#totalIncome {
+  color: green;
+  background-color: rgb(180, 255, 181);
+  padding-left: 0px;
+}
+
+#Balance {
+  color: rgb(0, 36, 182);
+  background-color: rgb(184, 201, 255);
+  padding-left: 0px;
+}
+
+#totalExpencive {
+  color: rgb(192, 5, 5);
+  background-color: rgb(255, 180, 180);
+  padding-left: 0px;
+}
+
+#total div span {
+  padding-left: 100px;
+  display: block;
+  text-align: center;
+  line-height: auto;
+  font-size: 20px;
+  align-items: center;
+}
+
+
+#container {
+  width: auto;
+  height: auto;
+}
+
+#content {
+    border-radius: 20px;
+  width: 1000px;
+}
