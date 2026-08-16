@@ -44,16 +44,21 @@ fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/")
 
         });
         const spanB = document.createElement("span");
+        spanB.className = "Sums";
         spanB.innerHTML = `
-            Balance : <strong> ${sum}</strong>`;
+            Balance: <strong> ${sum}</strong>`;
         balance.appendChild(spanB);
         const spanI = document.createElement("span");
+        spanI.className = "Sums";
+
         spanI.innerHTML = `
-            Balance : <strong> ${SumDarAmadHa}</strong>`;
+            Balance: <strong> ${SumDarAmadHa}</strong>`;
         totalIncome.appendChild(spanI);
         const spanE = document.createElement("span");
+        spanE.className = "Sums";
+
         spanE.innerHTML = `
-            total expencive : <strong> ${SumHazineHa}</strong>`;
+            total expencive: <strong> ${SumHazineHa}</strong>`;
         totalExpencive.appendChild(spanE);
 
     })
