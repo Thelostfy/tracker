@@ -15,39 +15,106 @@
 </head>
 
 <body>
-    <header>
-        <!-- place navbar here -->
 
-    </header>
-    <main>
-
-
-        <div id="Main">
-            <div id="total">
-                <div id="totalIncome" class="p0"></div>
-                <div id="totalExpencive"></div>
-                <div id="Balance"></div>
-            </div>
-            <div id="container">
-                <table id="content">
-
-                </table>
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top" id="navb">
+        <div class="container">
+            <a class="navbar-brand" href="#">Expense Tracker</a>
+            <button class="navbar-toggler" data-toggler="collapse" data-taget="#ourNavbar"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div id="ourNavbar" class="collapse navbar-collapse justify-content-evenly">
+                <div class="search mx-auto">
+                    <input type="text" class="form-control" placeholder="Search transactions...">
+                </div>
+                <div class="addButtons">
+                    <button type="button" class="btn btn-primary add-btn" id="addExpenseButton" data-bs-toggle="modal"
+                        data-bs-target="#addExpense">
+                        Add Expense
+                    </button>
+                    <button class="navbar-item btn btn-primary">Add Income</button>
+                </div>
             </div>
         </div>
-        <div class="d-flex justify-content-end gap-2 ">
-            <button id="all" class="btn btn-primary ">همه</button>
-            <button id="darAmad" class="btn btn-primary">درآمد ها</button>
-            <button id="hazine" class="btn btn-primary">هزینه ها</button>
+    </nav>
 
+
+    <!--  اینم فرم خودتونه چیزایی که ازش بلد نیستم از قسمت بعد آیدی تا قبل استایل  -->
+    <div class="modal fade" id="addExpense" tabindex="-1" aria-labelledby="addExpenseLabel" aria-modal="true"
+        role="dialog" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-primary" id="addExpenseLabel">
+                        Add Expense
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addExpenseForm" onsubmit="createOrUpdateExpense(event)">
+                    <input type="hidden" name="id" value="">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" name="name" id="name" autocomplete="name"
+                                placeholder="Enter a name like Groceries..." required="">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category:</label>
+                            <select name="category" id="category" class="form-select" required="">
+                                <option disabled="" selected="" value="">
+                                    Select the category...
+                                </option>
+                                <option value="Food">Food</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Education">Education</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount:</label>
+                            <input type="number" class="form-control" name="amount" id="amount"
+                                placeholder="Enter Amount Here..." min="0.01" step="0.01" required="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary" type="submit">Save Expense</button>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
+
+    <div id="Main" class="fade">
+        <div id="total">
+            <div id="totalIncome" class="p0"></div>
+            <div id="totalExpencive"></div>
+            <div id="Balance"></div>
+        </div>
+        <div id="container">
+            <table id="content">
+
+            </table>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end gap-2 ">
+        <button id="all" class="btn btn-primary ">همه</button>
+        <button id="darAmad" class="btn btn-primary">درآمد ها</button>
+        <button id="hazine" class="btn btn-primary">هزینه ها</button>
+
+    </div>
 
 
-        <script src="app.js"></script>
+    <script src="app.js"></script>
 
-    </main>
-    <footer>
-        <!-- place footer here -->
-    </footer>
+
     <!-- Bootstrap JavaScript Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
