@@ -68,11 +68,11 @@ const nav = document.getElementById("navb");
 
 
 //  اینجا به مشکل خوردم چون این تغییرات اعمال نمیشه و نمیدونم مشکلش چیه و توی بالا واوردن فرم ها یکم به مشکل خوردم و مخم گوزیده
-addExpBut.addEventListener("click",()=>{
+addExpBut.addEventListener("click", () => {
     document.body.className = "modal-open";
     document.body.style.overflow = "hidden";
     document.body.style.paddingRight = "0px";
     nav.style.paddingRight = "0px";
-    
+
 
 })

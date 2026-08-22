@@ -3,12 +3,9 @@
 
 <head>
     <title>Tracker</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Bootstrap CSS v5.3.8 -->
-    <link href="bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
 
 
@@ -16,7 +13,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top" id="navb">
+    <!-- <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top" id="navb">
         <div class="container">
             <a class="navbar-brand" href="#">Expense Tracker</a>
             <button class="navbar-toggler" data-toggler="collapse" data-taget="#ourNavbar"><span
@@ -34,10 +31,37 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </nav> -->
 
 
-    <!--  اینم فرم خودتونه چیزایی که ازش بلد نیستم از قسمت بعد آیدی تا قبل استایل  -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+
+     <!-- اینم فرم خودتونه چیزایی که ازش بلد نیستم از قسمت بعد آیدی تا قبل استایل 
     <div class="modal fade" id="addExpense" tabindex="-1" aria-labelledby="addExpenseLabel" aria-modal="true"
         role="dialog" style="display: block;">
         <div class="modal-dialog">
@@ -90,9 +114,9 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div id="Main" class="fade">
+    <!-- <div id="Main" class="fade">
         <div id="total">
             <div id="totalIncome" class="p0"></div>
             <div id="totalExpencive"></div>
@@ -109,16 +133,15 @@
         <button id="darAmad" class="btn btn-primary">درآمد ها</button>
         <button id="hazine" class="btn btn-primary">هزینه ها</button>
 
-    </div>
+    </div> -->
 
 
+    
+    <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
 
 
-    <!-- Bootstrap JavaScript Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
 </body>
 
 </html>
