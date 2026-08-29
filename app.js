@@ -3,7 +3,8 @@ const totalExpencive = document.getElementById("totalExpencive");
 const balance = document.getElementById("Balance");
 const tablebody = document.getElementById("table-body");
 
-fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
+function GetData() {
+    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
     .then((response) => response.json())
     .then((data) => {
         let SumDarAmadHa = 0;
@@ -60,4 +61,62 @@ fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
 
 
 
+    });
+}
+// GetData();
+const expenciveForm = document.getElementById("expenciveForm");
+expenciveForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+
+    const data = new FormData(event.target);
+    const submitedExpForm = Object.fromEntries(data.entries());
+
+    debugger
+
+    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submitedExpForm)
     })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Expencive Added : " + data);
+        }
+        )
+
+        GetData();
+
+})
+
+
+//income post
+
+const incomeform = document.getElementById("incomeform");
+expenciveForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+
+    const data = new FormData(event.target);
+    const submitedExpForm = Object.fromEntries(data.entries());
+
+    debugger
+
+    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submitedExpForm)
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Income Added : " + data);
+        }
+        )
+
+        GetData();
+
+})
