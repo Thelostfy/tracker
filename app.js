@@ -2,8 +2,9 @@ const totalIncome = document.getElementById("totalIncome");
 const totalExpencive = document.getElementById("totalExpencive");
 const balance = document.getElementById("Balance");
 const tablebody = document.getElementById("table-body");
+const expenseModal = new bootstrap.Modal('#addExpense');
 
-function GetData() {
+const GetData = function () {
     fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
         .then((response) => response.json())
         .then((data) => {
@@ -67,11 +68,8 @@ GetData();
 const expenciveForm = document.getElementById("expenciveForm");
 
 expenciveForm.addEventListener("submit", function (event) {
+
     event.preventDefault();
-
-    const expenseModal = new bootstrap.Modal('#addExpense');
-    expenseModal.show();
-
     const data = new FormData(event.target);
     const submitedExpForm = Object.fromEntries(data.entries());
     fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense", {
@@ -85,6 +83,7 @@ expenciveForm.addEventListener("submit", function (event) {
         .then((data) => {
             console.log("Expencive Added : " + data);
             expenseModal.hide();
+            tablebody = "";
             GetData();
 
         }
