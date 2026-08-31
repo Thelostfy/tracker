@@ -1,9 +1,17 @@
 const totalIncome = document.getElementById("totalIncome");
 const totalExpencive = document.getElementById("totalExpencive");
 const balance = document.getElementById("Balance");
-const tablebody = document.getElementById("table-body");
-const expenseModal = new bootstrap.Modal('#addExpense');
 
+const tablebody = document.getElementById("table-body");
+
+const expenseModal = new bootstrap.Modal('#addExpense');
+const expenciveForm = document.getElementById("expenciveForm");
+
+const incomeModal = new bootstrap.Modal('#addIncome');
+const incomeform = document.getElementById("incomeform");
+
+
+// Get Data From API Function
 const GetData = function () {
     fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
         .then((response) => response.json())
@@ -64,9 +72,10 @@ const GetData = function () {
 
         });
 }
+// Call Data from API
 GetData();
-const expenciveForm = document.getElementById("expenciveForm");
 
+//expence post
 expenciveForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
@@ -97,30 +106,30 @@ expenciveForm.addEventListener("submit", function (event) {
 
 
 //income post
+expenciveForm.addEventListener("submit", function (event) {
 
-// const incomeform = document.getElementById("incomeform");
-// incomeform.addEventListener("submit", function (event) {
-//     event.preventDefault();
+    event.preventDefault();
+    const incomeData = new FormData(event.target);
+    const submitedExpForm = Object.fromEntries(incomeData.entries());
+    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/income", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submitedExpForm)
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Income Added : " + data);
 
+            tablebody.innerHTML = "";
+            balance.innerHTML = "";
+            totalExpencive.innerHTML = "";
+            totalIncome.innerHTML = "";
+            incomeform.reset();
+            incomeModal.hide();
+            GetData();
 
-//     const data = new FormData(event.target);
-//     const submitedExpForm = Object.fromEntries(data.entries());
-
-//     debugger;
-
-//     fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/income", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(submitedExpForm)
-//     })
-//         .then((response) => response.json())
-//         .then((data) => {
-//             console.log("Income Added : " + data);
-//         }
-//         )
-
-//         GetData();
-
-// })
+        }
+        )
+})
