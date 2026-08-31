@@ -10,70 +10,77 @@ const expenciveForm = document.getElementById("expenciveForm");
 const incomeModal = new bootstrap.Modal('#addIncome');
 const incomeform = document.getElementById("incomeform");
 
+const search = document.getElementById("search");
+
+let array = [];
+
+const DataAPI = fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
+    .then((response) => response.json());
 
 // Get Data From API Function
 const GetData = function () {
-    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
-        .then((response) => response.json())
-        .then((data) => {
-            let SumDarAmadHa = 0;
-            let SumHazineHa = 0;
-            let sum = 0;
-            data.forEach(element => {
 
-                // ----------------------Calculate Sum
-                if (element.type === "Expense") {
-                    sum -= element.amount;
-                    SumHazineHa += element.amount;
-                }
-                else {
-                    sum += element.amount;
-                    SumDarAmadHa += element.amount;
-                }
+    DataAPI.then((data) => {
+        let SumDarAmadHa = 0;
+        let SumHazineHa = 0;
+        let sum = 0;
+        array.push(data);
+        data.forEach(element => {
 
-                // Define row for data
-                const card = document.createElement("tr");
-                card.innerHTML = `
+            // ----------------------Calculate Sum
+            if (element.type === "Expense") {
+                sum -= element.amount;
+                SumHazineHa += element.amount;
+            }
+            else {
+                sum += element.amount;
+                SumDarAmadHa += element.amount;
+            }
+
+            // Define row for data
+            const card = document.createElement("tr");
+            card.innerHTML = `
                 <td> ${element.type}</td>
                 <td>${element.name}</td>                
                 <td> ${element.category || element.source}</td>
                 <td>${element.amount}</td>
                 `;
 
-                tablebody.appendChild(card);
-            });
+            tablebody.appendChild(card);
+        });
 
-            // define span for exp and income and balance
-            const spanB = document.createElement("span");
-            const spanE = document.createElement("span");
-            const spanI = document.createElement("span");
+        // define span for exp and income and balance
+        const spanB = document.createElement("span");
+        const spanE = document.createElement("span");
+        const spanI = document.createElement("span");
 
-            // ---------------------------Balance
-            spanB.innerHTML = `
+        // ---------------------------Balance
+        spanB.innerHTML = `
             Balance: <strong> ${sum}</strong>`;
 
-            // ---------------------------Income
-            spanI.innerHTML = `
+        // ---------------------------Income
+        spanI.innerHTML = `
             Income: <strong> ${SumDarAmadHa}</strong>`;
 
-            // ---------------------------expencive
-            spanE.innerHTML = `
+        // ---------------------------expencive
+        spanE.innerHTML = `
             total expencive: <strong> ${SumHazineHa}</strong>`;
 
 
-            // add to html
-            balance.appendChild(spanB);
-            totalIncome.appendChild(spanI);
-            totalExpencive.appendChild(spanE);
+        // add to html
+        balance.appendChild(spanB);
+        totalIncome.appendChild(spanI);
+        totalExpencive.appendChild(spanE);
 
 
 
 
 
-        });
+    });
 }
 // Call Data from API
 GetData();
+
 
 //expence post
 expenciveForm.addEventListener("submit", function (event) {
@@ -106,7 +113,7 @@ expenciveForm.addEventListener("submit", function (event) {
 
 
 //income post
-expenciveForm.addEventListener("submit", function (event) {
+incomeform.addEventListener("submit", function (event) {
 
     event.preventDefault();
     const incomeData = new FormData(event.target);
@@ -133,3 +140,18 @@ expenciveForm.addEventListener("submit", function (event) {
         }
         )
 })
+
+
+// search
+// const SearchElement = function ( DataN = arraya) {
+
+    // for (const element of arraya) {
+    // for (const el of element) {
+    //     console.log(element);
+    // }}
+    // console.log(arraya);
+    
+// }
+// console.log(array);
+// console.log(DataAPI);
+// SearchElement();
