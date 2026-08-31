@@ -82,8 +82,12 @@ expenciveForm.addEventListener("submit", function (event) {
         .then((response) => response.json())
         .then((data) => {
             console.log("Expencive Added : " + data);
+
+            tablebody.innerHTML = "";
+            balance.innerHTML = "";
+            totalExpencive.innerHTML = "";
+            totalIncome.innerHTML = "";
             expenseModal.hide();
-            tablebody = "";
             GetData();
 
         }
