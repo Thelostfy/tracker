@@ -70,8 +70,8 @@ const expenciveForm = document.getElementById("expenciveForm");
 expenciveForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
-    const data = new FormData(event.target);
-    const submitedExpForm = Object.fromEntries(data.entries());
+    const expenciveData = new FormData(event.target);
+    const submitedExpForm = Object.fromEntries(expenciveData.entries());
     fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense", {
         method: "POST",
         headers: {
@@ -87,6 +87,7 @@ expenciveForm.addEventListener("submit", function (event) {
             balance.innerHTML = "";
             totalExpencive.innerHTML = "";
             totalIncome.innerHTML = "";
+            expenciveForm.reset();
             expenseModal.hide();
             GetData();
 
