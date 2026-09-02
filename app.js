@@ -33,118 +33,120 @@ function render(inputArray) {
     totalExpencive.innerHTML = "";
     totalIncome.innerHTML = "";
 
+    let SumDarAmadHa = 0;
+    let SumHazineHa = 0;
+    let sum = 0;
+
     //for each bezan roye inputArray va table ro besaz
-    inputArray.forEach(element => {
-        let SumDarAmadHa = 0;
-        let SumHazineHa = 0;
-        let sum = 0;
-        element.forEach(row => {
+    inputArray.forEach(row => {
 
-            // ----------------------Calculate Sum
-            if (row.type === "Expense") {
-                sum -= row.amount;
-                SumHazineHa += row.amount;
-            }
-            else {
-                sum += row.amount;
-                SumDarAmadHa += row.amount;
-            }
+        // ----------------------Calculate Sum
+        if (row.type === "Expense") {
+            sum -= row.amount;
+            SumHazineHa += row.amount;
+        }
+        else {
+            sum += row.amount;
+            SumDarAmadHa += row.amount;
+        }
 
-            // Define row for data
-            const card = document.createElement("tr");
-            card.innerHTML = `
+        // Define row for data
+        const card = document.createElement("tr");
+        card.innerHTML = `
                 <td> ${row.type}</td>
                 <td>${row.name}</td>                
                 <td> ${row.category || row.source}</td>
                 <td>${row.amount}</td>
                 `;
 
-            tablebody.appendChild(card);
-        });
+        tablebody.appendChild(card);
+    });
 
-        // define span for exp and income and balance
-        const spanB = document.createElement("span");
-        const spanE = document.createElement("span");
-        const spanI = document.createElement("span");
+    // define span for exp and income and balance
+    const spanB = document.createElement("span");
+    const spanE = document.createElement("span");
+    const spanI = document.createElement("span");
 
-        // ---------------------------Balance
-        spanB.innerHTML = `
+    // ---------------------------Balance
+    spanB.innerHTML = `
             Balance: <strong> ${sum}</strong>`;
 
-        // ---------------------------Income
-        spanI.innerHTML = `
+    // ---------------------------Income
+    spanI.innerHTML = `
         Income: <strong> ${SumDarAmadHa}</strong>`;
 
-        // ---------------------------expencive
-        spanE.innerHTML = `
+    // ---------------------------expencive
+    spanE.innerHTML = `
             total expencive: <strong> ${SumHazineHa}</strong>`;
 
 
-        // add to html
-        balance.appendChild(spanB);
-        totalIncome.appendChild(spanI);
-        totalExpencive.appendChild(spanE);
-    });
+    // add to html
+    balance.appendChild(spanB);
+    totalIncome.appendChild(spanI);
+    totalExpencive.appendChild(spanE);
 };
+
 
 
 
 
 // Call Data from API
 window.addEventListener("load", () => {
-    let result = fetchdata();
-    render(result)
-})
-
-//expence post
-expenciveForm.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-    const expenciveData = new FormData(event.target);
-    const submitedExpForm = Object.fromEntries(expenciveData.entries());
-    fetch(ExpencePost, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(submitedExpForm)
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Expencive Added : " + data);
-
-            expenciveForm.reset();
-            expenseModal.hide();
-            GetData();
-        }
-        )
-
-})
-
-
-//income post
-incomeform.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-    const incomeData = new FormData(event.target);
-    const submitedExpForm = Object.fromEntries(incomeData.entries());
-    fetch(IncomePost, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(submitedExpForm)
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Income Added : " + data);
-            GetData();
-            incomeform.reset();
-            incomeModal.hide();
-        }
-        )
+    fetchdata();
+    render(Transactions)
 }
 )
+
+
+// //expence post
+// expenciveForm.addEventListener("submit", function (event) {
+
+//     event.preventDefault();
+//     const expenciveData = new FormData(event.target);
+//     const submitedExpForm = Object.fromEntries(expenciveData.entries());
+//     fetch(ExpencePost, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(submitedExpForm)
+//     })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             console.log("Expencive Added : " + data);
+
+//             expenciveForm.reset();
+//             expenseModal.hide();
+//             render();
+//         }
+//         )
+
+// })
+
+
+// //income post
+// incomeform.addEventListener("submit", function (event) {
+
+//     event.preventDefault();
+//     const incomeData = new FormData(event.target);
+//     const submitedExpForm = Object.fromEntries(incomeData.entries());
+//     fetch(IncomePost, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(submitedExpForm)
+//     })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             console.log("Income Added : " + data);
+//             render();
+//             incomeform.reset();
+//             incomeModal.hide();
+//         }
+//         )
+// }
+// )
 
 // search
 // const SearchElement = function ( DataN = arraya) {
