@@ -38,25 +38,25 @@ function render(inputArray) {
         let SumDarAmadHa = 0;
         let SumHazineHa = 0;
         let sum = 0;
-        data.forEach(element => {
+        element.forEach(row => {
 
             // ----------------------Calculate Sum
-            if (element.type === "Expense") {
-                sum -= element.amount;
-                SumHazineHa += element.amount;
+            if (row.type === "Expense") {
+                sum -= row.amount;
+                SumHazineHa += row.amount;
             }
             else {
-                sum += element.amount;
-                SumDarAmadHa += element.amount;
+                sum += row.amount;
+                SumDarAmadHa += row.amount;
             }
 
             // Define row for data
             const card = document.createElement("tr");
             card.innerHTML = `
-                <td> ${element.type}</td>
-                <td>${element.name}</td>                
-                <td> ${element.category || element.source}</td>
-                <td>${element.amount}</td>
+                <td> ${row.type}</td>
+                <td>${row.name}</td>                
+                <td> ${row.category || row.source}</td>
+                <td>${row.amount}</td>
                 `;
 
             tablebody.appendChild(card);
