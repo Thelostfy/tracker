@@ -12,77 +12,88 @@ const AllTransactions = "https://mooni-expense.azurewebsites.net/api/v1/Transact
 const ExpencePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense";
 const IncomePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/income";
 
-// let DataAPI = ;
 let Transactions = [];
+
+//get all transaction from api
+//fill the array or return array
+function fetchdata() {
+    fetch(AllTransactions)
+        .then((response) => response.json())
+        .then((data) => {
+            Transactions = data
+        })
+}
 
 
 // Get Data From API Function
-const GetData = function () {
+function render(inputArray) {
+    //clear table content
     tablebody.innerHTML = "";
     balance.innerHTML = "";
     totalExpencive.innerHTML = "";
     totalIncome.innerHTML = "";
 
-    fetch(AllTransactions)
-        .then((response) => response.json())
-        .then((data) => {
-            Transactions = data
+    //for each bezan roye inputArray va table ro besaz
+    inputArray.forEach(element => {
+        let SumDarAmadHa = 0;
+        let SumHazineHa = 0;
+        let sum = 0;
+        data.forEach(element => {
 
+            // ----------------------Calculate Sum
+            if (element.type === "Expense") {
+                sum -= element.amount;
+                SumHazineHa += element.amount;
+            }
+            else {
+                sum += element.amount;
+                SumDarAmadHa += element.amount;
+            }
 
-            let SumDarAmadHa = 0;
-            let SumHazineHa = 0;
-            let sum = 0;
-            data.forEach(element => {
-
-                // ----------------------Calculate Sum
-                if (element.type === "Expense") {
-                    sum -= element.amount;
-                    SumHazineHa += element.amount;
-                }
-                else {
-                    sum += element.amount;
-                    SumDarAmadHa += element.amount;
-                }
-
-                // Define row for data
-                const card = document.createElement("tr");
-                card.innerHTML = `
+            // Define row for data
+            const card = document.createElement("tr");
+            card.innerHTML = `
                 <td> ${element.type}</td>
                 <td>${element.name}</td>                
                 <td> ${element.category || element.source}</td>
                 <td>${element.amount}</td>
                 `;
 
-                tablebody.appendChild(card);
-            });
+            tablebody.appendChild(card);
+        });
 
-            // define span for exp and income and balance
-            const spanB = document.createElement("span");
-            const spanE = document.createElement("span");
-            const spanI = document.createElement("span");
+        // define span for exp and income and balance
+        const spanB = document.createElement("span");
+        const spanE = document.createElement("span");
+        const spanI = document.createElement("span");
 
-            // ---------------------------Balance
-            spanB.innerHTML = `
+        // ---------------------------Balance
+        spanB.innerHTML = `
             Balance: <strong> ${sum}</strong>`;
 
-            // ---------------------------Income
-            spanI.innerHTML = `
+        // ---------------------------Income
+        spanI.innerHTML = `
         Income: <strong> ${SumDarAmadHa}</strong>`;
 
-            // ---------------------------expencive
-            spanE.innerHTML = `
+        // ---------------------------expencive
+        spanE.innerHTML = `
             total expencive: <strong> ${SumHazineHa}</strong>`;
 
 
-            // add to html
-            balance.appendChild(spanB);
-            totalIncome.appendChild(spanI);
-            totalExpencive.appendChild(spanE);
-        });
-}
+        // add to html
+        balance.appendChild(spanB);
+        totalIncome.appendChild(spanI);
+        totalExpencive.appendChild(spanE);
+    });
+};
+
+
+
+
 // Call Data from API
 window.addEventListener("load", () => {
-    GetData();
+    let result = fetchdata();
+    render(result)
 })
 
 //expence post

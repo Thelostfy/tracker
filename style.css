@@ -71,7 +71,7 @@ tr:last-child td {
 
 
 }
-  
+
 .totalIncome {
   color: green;
   background-color: rgb(180, 255, 181);
@@ -82,14 +82,14 @@ tr:last-child td {
 .Balance {
   color: rgb(46, 84, 240);
   background-color: rgb(184, 201, 255);
-    margin-right: 10px;
+  margin-right: 10px;
 
 }
 
 .totalExpencive {
   color: rgb(192, 5, 5);
   background-color: rgb(255, 180, 180);
-    margin-right: 10px;
+  margin-right: 10px;
 
 }
 
@@ -98,7 +98,7 @@ tr:last-child td {
 #container {
   width: auto;
   height: auto;
-  margin-top: 20px ;
+  margin-top: 20px;
   border: 1px black solid;
   border-radius: 20px;
 }
