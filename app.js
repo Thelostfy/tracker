@@ -1,86 +1,89 @@
 const totalIncome = document.getElementById("totalIncome");
 const totalExpencive = document.getElementById("totalExpencive");
 const balance = document.getElementById("Balance");
-
 const tablebody = document.getElementById("table-body");
-
 const expenseModal = new bootstrap.Modal('#addExpense');
 const expenciveForm = document.getElementById("expenciveForm");
-
 const incomeModal = new bootstrap.Modal('#addIncome');
 const incomeform = document.getElementById("incomeform");
-
 const search = document.getElementById("search");
 
-let array = [];
+const AllTransactions = "https://mooni-expense.azurewebsites.net/api/v1/Transactions";
+const ExpencePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense";
+const IncomePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/income";
 
-const DataAPI = fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions")
-    .then((response) => response.json());
+// let DataAPI = ;
+let Transactions = [];
+
 
 // Get Data From API Function
 const GetData = function () {
+    tablebody.innerHTML = "";
+    balance.innerHTML = "";
+    totalExpencive.innerHTML = "";
+    totalIncome.innerHTML = "";
 
-    DataAPI.then((data) => {
-        let SumDarAmadHa = 0;
-        let SumHazineHa = 0;
-        let sum = 0;
-        array.push(data);
-        data.forEach(element => {
+    fetch(AllTransactions)
+        .then((response) => response.json())
+        .then((data) => {
+            Transactions = data
 
-            // ----------------------Calculate Sum
-            if (element.type === "Expense") {
-                sum -= element.amount;
-                SumHazineHa += element.amount;
-            }
-            else {
-                sum += element.amount;
-                SumDarAmadHa += element.amount;
-            }
 
-            // Define row for data
-            const card = document.createElement("tr");
-            card.innerHTML = `
+            let SumDarAmadHa = 0;
+            let SumHazineHa = 0;
+            let sum = 0;
+            data.forEach(element => {
+
+                // ----------------------Calculate Sum
+                if (element.type === "Expense") {
+                    sum -= element.amount;
+                    SumHazineHa += element.amount;
+                }
+                else {
+                    sum += element.amount;
+                    SumDarAmadHa += element.amount;
+                }
+
+                // Define row for data
+                const card = document.createElement("tr");
+                card.innerHTML = `
                 <td> ${element.type}</td>
                 <td>${element.name}</td>                
                 <td> ${element.category || element.source}</td>
                 <td>${element.amount}</td>
                 `;
 
-            tablebody.appendChild(card);
-        });
+                tablebody.appendChild(card);
+            });
 
-        // define span for exp and income and balance
-        const spanB = document.createElement("span");
-        const spanE = document.createElement("span");
-        const spanI = document.createElement("span");
+            // define span for exp and income and balance
+            const spanB = document.createElement("span");
+            const spanE = document.createElement("span");
+            const spanI = document.createElement("span");
 
-        // ---------------------------Balance
-        spanB.innerHTML = `
+            // ---------------------------Balance
+            spanB.innerHTML = `
             Balance: <strong> ${sum}</strong>`;
 
-        // ---------------------------Income
-        spanI.innerHTML = `
-            Income: <strong> ${SumDarAmadHa}</strong>`;
+            // ---------------------------Income
+            spanI.innerHTML = `
+        Income: <strong> ${SumDarAmadHa}</strong>`;
 
-        // ---------------------------expencive
-        spanE.innerHTML = `
+            // ---------------------------expencive
+            spanE.innerHTML = `
             total expencive: <strong> ${SumHazineHa}</strong>`;
 
 
-        // add to html
-        balance.appendChild(spanB);
-        totalIncome.appendChild(spanI);
-        totalExpencive.appendChild(spanE);
-
-
-
-
-
-    });
+            // add to html
+            balance.appendChild(spanB);
+            totalIncome.appendChild(spanI);
+            totalExpencive.appendChild(spanE);
+        });
 }
 // Call Data from API
-GetData();
-
+window.addEventListener("load", () => {
+    GetData();
+})
 
 //expence post
 expenciveForm.addEventListener("submit", function (event) {
@@ -88,7 +91,7 @@ expenciveForm.addEventListener("submit", function (event) {
     event.preventDefault();
     const expenciveData = new FormData(event.target);
     const submitedExpForm = Object.fromEntries(expenciveData.entries());
-    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense", {
+    fetch(ExpencePost, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -99,16 +102,12 @@ expenciveForm.addEventListener("submit", function (event) {
         .then((data) => {
             console.log("Expencive Added : " + data);
 
-            tablebody.innerHTML = "";
-            balance.innerHTML = "";
-            totalExpencive.innerHTML = "";
-            totalIncome.innerHTML = "";
             expenciveForm.reset();
             expenseModal.hide();
             GetData();
-
         }
         )
+
 })
 
 
@@ -118,7 +117,7 @@ incomeform.addEventListener("submit", function (event) {
     event.preventDefault();
     const incomeData = new FormData(event.target);
     const submitedExpForm = Object.fromEntries(incomeData.entries());
-    fetch("https://mooni-expense.azurewebsites.net/api/v1/Transactions/income", {
+    fetch(IncomePost, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -128,30 +127,25 @@ incomeform.addEventListener("submit", function (event) {
         .then((response) => response.json())
         .then((data) => {
             console.log("Income Added : " + data);
-
-            tablebody.innerHTML = "";
-            balance.innerHTML = "";
-            totalExpencive.innerHTML = "";
-            totalIncome.innerHTML = "";
+            GetData();
             incomeform.reset();
             incomeModal.hide();
-            GetData();
-
         }
         )
-})
-
+}
+)
 
 // search
 // const SearchElement = function ( DataN = arraya) {
 
-    // for (const element of arraya) {
-    // for (const el of element) {
-    //     console.log(element);
-    // }}
-    // console.log(arraya);
-    
+// for (const element of arraya) {
+// for (const el of element) {
+//     console.log(element);
+// }}
+// console.log(arraya);
+
 // }
 // console.log(array);
 // console.log(DataAPI);
 // SearchElement();
+
