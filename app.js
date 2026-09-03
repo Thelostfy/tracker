@@ -34,15 +34,12 @@ function GetData(inputArray) {
     const dataToRender = inputArray || Transactions;
 
     //clear table content
-    try {
-        tablebody.innerHTML = "";
-        balance.innerHTML = "";
-        totalExpencive.innerHTML = "";
-        totalIncome.innerHTML = "";
-    }
-    catch (error) {
-        console.error("خطا در پاکسازی جدول : ", error.message);
-    }
+
+    tablebody.innerHTML = "";
+    balance.innerHTML = "";
+    totalExpencive.innerHTML = "";
+    totalIncome.innerHTML = "";
+
 
     // define variable 
     let SumDarAmadHa = 0;
@@ -123,7 +120,7 @@ expenciveForm.addEventListener("submit", function (event) {
     event.preventDefault();
     const expenciveData = new FormData(event.target);
     const submitedExpForm = Object.fromEntries(expenciveData.entries());
-    
+
     fetch(ExpencePost, {
         method: "POST",
         headers: {
@@ -132,7 +129,7 @@ expenciveForm.addEventListener("submit", function (event) {
         body: JSON.stringify(submitedExpForm)
     })
         .then((response) => response.json())
-        .then( async (data) => {
+        .then(async (data) => {
             console.log("Expencive Added : " + data);
 
             expenciveForm.reset();
@@ -159,7 +156,7 @@ incomeform.addEventListener("submit", function (event) {
         body: JSON.stringify(submitedExpForm)
     })
         .then((response) => response.json())
-        .then( async (data) => {
+        .then(async (data) => {
             console.log("Income Added : " + data);
             incomeform.reset();
             incomeModal.hide();
@@ -171,17 +168,20 @@ incomeform.addEventListener("submit", function (event) {
 )
 
 // search
-// const SearchElement = function ( DataN = arraya) {
+search.addEventListener("input", async (inputUser) => {
+    const inp = inputUser.target.value.toLowerCase();
+    await fetchdata();
+     
+    if (!inp) {
+            GetData(Transactions);
+            return;
+        }
 
-// for (const element of arraya) {
-// for (const el of element) {
-//     console.log(element);
-// }}
-// console.log(arraya);
+     const filteredData = Transactions.filter(item => item.name == inp);
+    console.log(filteredData);
+    GetData(filteredData)
 
-// }
-// console.log(array);
-// console.log(DataAPI);
-// SearchElement();
 
+
+});
 
