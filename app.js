@@ -20,7 +20,6 @@ async function fetchdata() {
         const response = await fetch(AllTransactions);
         const data = await response.json();
         Transactions = data;
-        return data;
     }
     catch (error) {
         console.error("خطا در دریافت اطلاعات : ", error.message);
@@ -31,7 +30,7 @@ async function fetchdata() {
 }
 
 // Get Data From API Function
-function render(inputArray) {
+function GetData(inputArray) {
     const dataToRender = inputArray || Transactions;
 
     //clear table content
@@ -112,61 +111,64 @@ function render(inputArray) {
 window.addEventListener("load",
     async function () {
         await fetchdata();
-        render(Transactions)
+        GetData(Transactions)
     }
 )
 
 
 
 // //expence post
-// expenciveForm.addEventListener("submit", function (event) {
+expenciveForm.addEventListener("submit", function (event) {
 
-//     event.preventDefault();
-//     const expenciveData = new FormData(event.target);
-//     const submitedExpForm = Object.fromEntries(expenciveData.entries());
-//     fetch(ExpencePost, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(submitedExpForm)
-//     })
-//         .then((response) => response.json())
-//         .then((data) => {
-//             console.log("Expencive Added : " + data);
+    event.preventDefault();
+    const expenciveData = new FormData(event.target);
+    const submitedExpForm = Object.fromEntries(expenciveData.entries());
+    
+    fetch(ExpencePost, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submitedExpForm)
+    })
+        .then((response) => response.json())
+        .then( async (data) => {
+            console.log("Expencive Added : " + data);
 
-//             expenciveForm.reset();
-//             expenseModal.hide();
-//             render();
-//         }
-//         )
+            expenciveForm.reset();
+            expenseModal.hide();
+            await fetchdata();
+            GetData();
+        }
+        )
 
-// })
+})
 
 
 // //income post
-// incomeform.addEventListener("submit", function (event) {
+incomeform.addEventListener("submit", function (event) {
 
-//     event.preventDefault();
-//     const incomeData = new FormData(event.target);
-//     const submitedExpForm = Object.fromEntries(incomeData.entries());
-//     fetch(IncomePost, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(submitedExpForm)
-//     })
-//         .then((response) => response.json())
-//         .then((data) => {
-//             console.log("Income Added : " + data);
-//             render();
-//             incomeform.reset();
-//             incomeModal.hide();
-//         }
-//         )
-// }
-// )
+    event.preventDefault();
+    const incomeData = new FormData(event.target);
+    const submitedExpForm = Object.fromEntries(incomeData.entries());
+    fetch(IncomePost, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submitedExpForm)
+    })
+        .then((response) => response.json())
+        .then( async (data) => {
+            console.log("Income Added : " + data);
+            incomeform.reset();
+            incomeModal.hide();
+            await fetchdata();
+            GetData();
+        }
+        )
+}
+)
 
 // search
 // const SearchElement = function ( DataN = arraya) {
