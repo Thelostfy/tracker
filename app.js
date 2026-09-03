@@ -14,41 +14,61 @@ const IncomePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/
 
 let Transactions = [];
 
-//get all transaction from api
-//fill the array or return array
-function fetchdata() {
-    fetch(AllTransactions)
-        .then((response) => response.json())
-        .then((data) => {
-            Transactions = data
-        })
-}
+//get all transaction from api and fill the array or return arrayo
+async function fetchdata() {
+    try {
+        const response = await fetch(AllTransactions);
+        const data = await response.json();
+        Transactions = data;
+        return data;
+    }
+    catch (error) {
+        console.error("خطا در دریافت اطلاعات : ", error.message);
+        return [];
 
+    }
+
+}
 
 // Get Data From API Function
 function render(inputArray) {
-    //clear table content
-    tablebody.innerHTML = "";
-    balance.innerHTML = "";
-    totalExpencive.innerHTML = "";
-    totalIncome.innerHTML = "";
+    const dataToRender = inputArray || Transactions;
 
+    //clear table content
+    try {
+        tablebody.innerHTML = "";
+        balance.innerHTML = "";
+        totalExpencive.innerHTML = "";
+        totalIncome.innerHTML = "";
+    }
+    catch (error) {
+        console.error("خطا در پاکسازی جدول : ", error.message);
+    }
+
+    // define variable 
     let SumDarAmadHa = 0;
     let SumHazineHa = 0;
     let sum = 0;
 
-    //for each bezan roye inputArray va table ro besaz
-    inputArray.forEach(row => {
 
+
+    dataToRender.forEach(row => {
         // ----------------------Calculate Sum
-        if (row.type === "Expense") {
-            sum -= row.amount;
-            SumHazineHa += row.amount;
+
+        try {
+            if (row.type === "Expense") {
+                sum -= row.amount;
+                SumHazineHa += row.amount;
+            }
+            else {
+                sum += row.amount;
+                SumDarAmadHa += row.amount;
+            }
         }
-        else {
-            sum += row.amount;
-            SumDarAmadHa += row.amount;
+        catch (error) {
+            console.error("خطا در محاسبه مقادیر:", error);
         }
+
 
         // Define row for data
         const card = document.createElement("tr");
@@ -88,14 +108,14 @@ function render(inputArray) {
 
 
 
-
-
 // Call Data from API
-window.addEventListener("load", () => {
-    fetchdata();
-    render(Transactions)
-}
+window.addEventListener("load",
+    async function () {
+        await fetchdata();
+        render(Transactions)
+    }
 )
+
 
 
 // //expence post
@@ -161,4 +181,5 @@ window.addEventListener("load", () => {
 // console.log(array);
 // console.log(DataAPI);
 // SearchElement();
+
 
