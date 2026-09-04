@@ -31,7 +31,7 @@ async function fetchdata() {
 
 // Get Data From API Function
 function GetData(inputArray) {
-    const dataToRender = inputArray || Transactions;
+    const dataToRender = inputArray;
 
     //clear table content
 
@@ -135,7 +135,7 @@ expenciveForm.addEventListener("submit", function (event) {
             expenciveForm.reset();
             expenseModal.hide();
             await fetchdata();
-            GetData();
+            GetData(Transactions);
         }
         )
 
@@ -161,27 +161,24 @@ incomeform.addEventListener("submit", function (event) {
             incomeform.reset();
             incomeModal.hide();
             await fetchdata();
-            GetData();
+            GetData(Transactions);
         }
         )
 }
 )
 
 // search
-search.addEventListener("input", async (inputUser) => {
+search.addEventListener("input", (inputUser) => {
     const inp = inputUser.target.value.toLowerCase();
-    await fetchdata();
-     
     if (!inp) {
-            GetData(Transactions);
-            return;
-        }
-
-     const filteredData = Transactions.filter(item => item.name == inp);
-    console.log(filteredData);
+        GetData(Transactions);
+        return;
+    }
+    const filteredData = Transactions.filter(item =>
+        (item.name && item.name.toLowerCase().includes(inp)) ||
+        (item.category && item.category.toLowerCase().includes(inp))
+    );
     GetData(filteredData)
-
-
-
-});
+}
+);
 
