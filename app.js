@@ -31,7 +31,6 @@ async function fetchdata() {
 
 // Get Data From API Function
 function GetData(inputArray) {
-    const dataToRender = inputArray;
 
     //clear table content
 
@@ -48,7 +47,7 @@ function GetData(inputArray) {
 
 
 
-    dataToRender.forEach(row => {
+    inputArray.forEach(row => {
         // ----------------------Calculate Sum
 
         try {
@@ -176,7 +175,8 @@ search.addEventListener("input", (inputUser) => {
     }
     const filteredData = Transactions.filter(item =>
         (item.name && item.name.toLowerCase().includes(inp)) ||
-        (item.category && item.category.toLowerCase().includes(inp))
+        (item.category && item.category.toLowerCase().includes(inp))||
+        (item.amount.toString().includes(inp))
     );
     GetData(filteredData)
 }
