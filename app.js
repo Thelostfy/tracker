@@ -8,7 +8,7 @@ const incomeModal = new bootstrap.Modal('#addIncome');
 const incomeform = document.getElementById("incomeform");
 const search = document.getElementById("search");
 
-const AllTransactions = "https://mooni-expense.azurewebsites.net/api/v1/Transactions";
+const AllTransactions = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/";
 const ExpencePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense";
 const IncomePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/income";
 
@@ -28,9 +28,23 @@ async function fetchdata() {
     }
 
 }
+const Delete = async function (ID) {
+
+    if (confirm("are you sure ?")) {
+        const response = await fetch(AllTransactions + ID, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        await fetchdata();
+        render(Transactions)
+    }
+}
+
 
 // Get Data From API Function
-function GetData(inputArray) {
+function render(inputArray) {
 
     //clear table content
 
@@ -72,6 +86,22 @@ function GetData(inputArray) {
                 <td>${row.name}</td>                
                 <td> ${row.category || row.source}</td>
                 <td>${row.amount}</td>
+                <td><button onclick = "Delete(row.type)">    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" >
+        <path d="M13.39 17.36L10.64 14.61" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"
+            stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M13.36 14.64L10.61 17.39" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"
+            stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M8.81 2L5.19 5.63" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"
+            stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M15.19 2L18.81 5.63" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"
+            stroke-linecap="round" stroke-linejoin="round" />
+        <path
+            d="M2 7.84998C2 5.99998 2.99 5.84998 4.22 5.84998H19.78C21.01 5.84998 22 5.99998 22 7.84998C22 9.99998 21.01 9.84998 19.78 9.84998H4.22C2.99 9.84998 2 9.99998 2 7.84998Z"
+            stroke="currentColor" stroke-width="1.5" />
+        <path d="M3.5 10L4.91 18.64C5.23 20.58 6 22 8.86 22H14.89C18 22 18.46 20.64 18.82 18.76L20.5 10"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg></button></td>
+                
                 `;
 
         tablebody.appendChild(card);
@@ -107,7 +137,8 @@ function GetData(inputArray) {
 window.addEventListener("load",
     async function () {
         await fetchdata();
-        GetData(Transactions)
+        render(Transactions)
+
     }
 )
 
@@ -134,7 +165,7 @@ expenciveForm.addEventListener("submit", function (event) {
             expenciveForm.reset();
             expenseModal.hide();
             await fetchdata();
-            GetData(Transactions);
+            render(Transactions);
         }
         )
 
@@ -160,7 +191,7 @@ incomeform.addEventListener("submit", function (event) {
             incomeform.reset();
             incomeModal.hide();
             await fetchdata();
-            GetData(Transactions);
+            render(Transactions);
         }
         )
 }
@@ -170,15 +201,15 @@ incomeform.addEventListener("submit", function (event) {
 search.addEventListener("input", (inputUser) => {
     const inp = inputUser.target.value.toLowerCase();
     if (!inp) {
-        GetData(Transactions);
+        render(Transactions);
         return;
     }
     const filteredData = Transactions.filter(item =>
         (item.name && item.name.toLowerCase().includes(inp)) ||
-        (item.category && item.category.toLowerCase().includes(inp))||
+        (item.category && item.category.toLowerCase().includes(inp)) ||
         (item.amount.toString().includes(inp))
     );
-    GetData(filteredData)
+    render(filteredData)
 }
 );
 
