@@ -127,8 +127,18 @@ function render(inputArray) {
 window.addEventListener("load",
     async function () {
         await fetchdata();
-        render(Transactions)
+        await render(Transactions)
+        const DeleteBtns = document.getElementsByClassName("delete-btn");
 
+        for (const btn of DeleteBtns) {
+
+            btn.addEventListener("click", async function (event) {
+                const id = event.target.getAttribute("data-id");
+                if (id) {
+                    await deleteDataById(id);
+                }
+            });
+        }
     }
 )
 
@@ -203,14 +213,3 @@ search.addEventListener("input", (inputUser) => {
 }
 );
 
-const DeleteBtns = document.getElementsByClassName("delete-btn");
-
-for (const btn of DeleteBtns) {
-    
-    btn.addEventListener("click", async function (event) {
-         const id = event.target.getAttribute("data-id");
-        if (id) {
-            await deleteDataById(id);
-        }
-    });
-}
