@@ -1,12 +1,12 @@
-const totalIncome = document.getElementById("totalIncome");
-const totalExpencive = document.getElementById("totalExpencive");
-const balance = document.getElementById("Balance");
-const tablebody = document.getElementById("table-body");
+const totalIncome = document.querySelector("#totalIncome");
+const totalExpencive = document.querySelector("#totalExpencive");
+const balance = document.querySelector("#Balance");
+const tablebody = document.querySelector("#table-body");
 const expenseModal = new bootstrap.Modal('#addExpense');
-const expenciveForm = document.getElementById("expenciveForm");
+const expenciveForm = document.querySelector("#expenciveForm");
 const incomeModal = new bootstrap.Modal('#addIncome');
-const incomeform = document.getElementById("incomeform");
-const search = document.getElementById("search");
+const incomeform = document.querySelector("#incomeform");
+const search = document.querySelector("#search");
 
 const AllTransactions = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/";
 const ExpencePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense";
@@ -29,19 +29,19 @@ async function fetchdata() {
 
 }
 const deleteDataById = async function (ID) {
-    if (confirm(`آیا مطمئنی برای حذف کردن این تراکنش؟`)) {
-        const response = await fetch(AllTransactions + ID, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-    }
-    else {
-        return "حذف تراکنش کنسل شد  ";
-    }
+
+    const response = await fetch(AllTransactions + ID, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
     await fetchdata();
     render(Transactions);
+
+
+
 
 }
 
@@ -119,29 +119,21 @@ function render(inputArray) {
     balance.appendChild(spanB);
     totalIncome.appendChild(spanI);
     totalExpencive.appendChild(spanE);
+
+    defineDeleteBtn();
 };
 
 
 
 // Call Data from API
-window.addEventListener("load",
+let a = window.addEventListener("load",
     async function () {
         await fetchdata();
         await render(Transactions)
-        const DeleteBtns = document.getElementsByClassName("delete-btn");
 
-        for (const btn of DeleteBtns) {
-
-            btn.addEventListener("click", async function (event) {
-                const id = event.target.getAttribute("data-id");
-                if (id) {
-                    await deleteDataById(id);
-                }
-            });
-        }
     }
 )
-
+a
 
 
 // //expence post
@@ -212,4 +204,18 @@ search.addEventListener("input", (inputUser) => {
     render(filteredData)
 }
 );
+4
 
+const defineDeleteBtn = function() {
+     const DeleteBtns = document.getElementsByClassName("delete-btn");
+        for (const btn of DeleteBtns) {
+            btn.addEventListener("click", async function (event) {
+                const id = event.target.getAttribute("data-id");
+                if (confirm(`آیا مطمئنی برای حذف کردن این تراکنش؟`)) {
+                    if(id){
+                    await deleteDataById(id);
+                }}
+            });
+        }
+        
+}
