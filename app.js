@@ -15,7 +15,7 @@ const incomeform = document.querySelector("#incomeform");
 const search = document.querySelector("#search");
 
 const editIncomeAmount = document.querySelector("#editIncomeAmount");
-const editIncomeSource = document.querySelector("#editIncomeCategory");
+const editIncomeSource = document.querySelector("#editIncomeSource");
 
 const editExpenseAmount = document.querySelector("#editExpenseAmount");
 const editExpenseName = document.querySelector("#editExpenseName");
@@ -41,6 +41,7 @@ async function fetchdata() {
     }
 
 }
+
 const deleteDataById = async function (ID) {
 
     const response = await fetch(AllTransactions + ID, {
@@ -262,7 +263,7 @@ const defineEditBtn = function () {
             }
             else {
                 editIncomeAmount.value = amount;
-                editIncomeSource.value = category;
+                editIncomeSource.value = source;
 
                 await editIncomeModal.show();
 
