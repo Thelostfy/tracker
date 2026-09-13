@@ -31,7 +31,7 @@ let idVariable;
 
 let Transactions = [];
 
-//get all transaction from api and fill the array or return arrayo
+//get all transaction from api and fill the array or return array
 async function fetchdata() {
     try {
         const response = await fetch(AllTransactions);
@@ -69,7 +69,6 @@ const deleteDataById = async function (ID) {
 async function render(inputArray) {
 
     //clear table content
-
     tablebody.innerHTML = "";
     balance.innerHTML = "";
     totalExpencive.innerHTML = "";
@@ -81,11 +80,10 @@ async function render(inputArray) {
     let SumHazineHa = 0;
     let sum = 0;
 
-
-
     inputArray.forEach(row => {
-        // ----------------------Calculate Sum
 
+
+        // ----------------------Calculate Sum
         try {
             if (row.type === "Expense") {
                 sum -= row.amount;
@@ -99,8 +97,9 @@ async function render(inputArray) {
         catch (error) {
             console.error("خطا در محاسبه مقادیر:", error);
         }
-        let IsExpence = (row.type == "Expense") ? "editExpenseModal" : "editIncomeModal";
 
+
+        let IsExpence = (row.type == "Expense") ? "editExpenseModal" : "editIncomeModal";
 
         // Define row for data
         const card = document.createElement("tr");
@@ -157,7 +156,7 @@ window.addEventListener("load",
 
 // //expence post
 expenseForm.addEventListener("submit", function (event) {
-
+    
     event.preventDefault();
     const expenciveData = new FormData(event.target);
     const submitedExpForm = Object.fromEntries(expenciveData.entries());
@@ -175,11 +174,11 @@ expenseForm.addEventListener("submit", function (event) {
 
             expenseForm.reset();
             expenseModal.hide();
+    
             await fetchdata();
             render(Transactions);
         }
         )
-
 })
 
 
@@ -239,6 +238,7 @@ editExpenseForm.addEventListener("submit", async function (event) {
 
     editExpenseForm.reset();
     editExpenseModal.hide();
+    idVariable = "";
     await fetchdata();
     render(Transactions);
 }
@@ -259,6 +259,7 @@ editIncomeForm.addEventListener("submit", async function (event) {
 
     editIncomeForm.reset();
     editIncomeModal.hide();
+    idVariable = "";
     await fetchdata();
     render(Transactions);
 }
@@ -281,7 +282,6 @@ const defineDeleteBtn = function () {
 
 }
 
-
 const defineEditBtn = function () {
     const EditBtn = document.getElementsByClassName("edit-btn");
 
@@ -299,15 +299,15 @@ const defineEditBtn = function () {
 
             idVariable = id;
             if (type == "Expense") {
-
                 const currentName = event.target.getAttribute("data-name");
                 editExpenseName.value = currentName;
                 editExpenseAmount.value = amount;
                 editExpenseCategory.value = category;
+
                 await editExpenseModal.show();
             }
 
-            else {
+            else if(type == "Income") {
                 editIncomeAmount.value = amount;
                 editIncomeSource.value = source;
 
@@ -317,4 +317,3 @@ const defineEditBtn = function () {
         })
     }
 }
-
