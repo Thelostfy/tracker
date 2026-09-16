@@ -52,8 +52,8 @@ tr:last-child td {
 #Balance,
 #totalExpencive {
   /* area */
-  width: 300px;
-  height: 100px;
+  /* width: 300px; */
+  /* height: 100px; */
 
   /* border */
   border: black 1px solid;
