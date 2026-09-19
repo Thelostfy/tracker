@@ -5,6 +5,9 @@ const tablebody = document.querySelector("#table-body");
 
 const expenseModal = new bootstrap.Modal('#ExpenceModal');
 const incomeModal = new bootstrap.Modal('#incomeModal');
+const incomeModalElement = document.querySelector('#incomeModal');
+const expenseModalElement = document.querySelector('#incomeModal');
+
 
 const addexpenseButton = document.querySelector("#addexpenseButton");
 const addIncomeButton = document.querySelector("#addIncomeButton");
@@ -31,7 +34,6 @@ const AllTransactions = "https://mooni-expense.azurewebsites.net/api/v1/Transact
 const ExpensePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/expense/";
 const IncomePost = "https://mooni-expense.azurewebsites.net/api/v1/Transactions/income/";
 
-let idVariable;
 
 let Transactions = [];
 
@@ -175,6 +177,7 @@ search.addEventListener("input", (inputUser) => {
 
 expenseForm.addEventListener("submit", async function (event) {
     const id = document.querySelector(`#hiddenInputId`).value;
+    const inputIdElement = document.querySelector(`#hiddenInputId`);
 
     // for post method
     if (!id) {
@@ -182,41 +185,53 @@ expenseForm.addEventListener("submit", async function (event) {
         const expenciveData = new FormData(event.target);
         const submitedExpForm = Object.fromEntries(expenciveData.entries());
 
-        fetch(ExpensePost, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(submitedExpForm)
-        })
-            .then((response) => response.json())
-            .then(async (data) => {
-                console.log("Expencive Added : " + data);
+        try {
+            fetch(ExpensePost, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(submitedExpForm)
+            })
+                .then((response) => response.json())
+                .then(async (data) => {
+                    console.log("Expencive Added : " + data);
 
-                expenseForm.reset();
-                expenseModal.hide();
+                    expenseForm.reset();
+                    expenseModal.hide();
 
-                await fetchdata();
-                render(Transactions);
-            }
-            )
+                    await fetchdata();
+                    render(Transactions);
+                }
+                )
+        }
+        catch {
+            console.error("خطا در API : ", error.message);
+            return;
+        }
+
+
 
     }
     // for put method
     else {
         event.preventDefault();
-        const id = document.querySelector('tr td input[type="hidden"][data-id]');
-        console.log(id);
-        debugger;
         const editData = new FormData(event.target);
         const submitededitForm = Object.fromEntries(editData.entries());
-        await fetch(ExpensePost + `${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(submitededitForm)
-        })
+
+        try {
+            await fetch(ExpensePost + `${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(submitededitForm)
+            })
+        }
+        catch (error) {
+            console.error("خطا در API و عملایت PUT کردن");
+            return;
+        }
         expenseForm.reset();
         expenseModal.hide();
         await fetchdata();
@@ -301,7 +316,7 @@ const defineEditBtn = async function () {
             inputId.value = id;
             inputId.id = "hiddenInputId";
             if (data.type == "Expense") {
-                ExpenceModalLabel.innerHTML = "edit expense";
+                ExpenceModalLabel.innerHTML = "Edit expense";
                 expenseSubmitBtn.innerHTML = "Update expense";
                 expenseAmount.value = data.amount;
                 expenseCategory.value = data.category;
@@ -311,7 +326,7 @@ const defineEditBtn = async function () {
             }
 
             else if (data.type == "Income") {
-                incomeModalLabel.innerHTML = "edit income";
+                incomeModalLabel.innerHTML = "Edit income";
                 incomeSubmitBtn.innerHTML = "Update income";
                 incomeAmount.value = data.amount;
                 incomeSource.value = data.source;
@@ -323,3 +338,37 @@ const defineEditBtn = async function () {
         })
     }
 }
+
+addexpenseButton.addEventListener("click", () => {
+    expenseForm.reset();
+    ExpenceModalLabel.innerHTML = "Add expense";
+    expenseSubmitBtn.innerHTML = "Add expense";
+
+
+    expenseModal.show();
+
+
+});
+addIncomeButton.addEventListener("click", () => {
+    incomeForm.reset();
+    incomeModalLabel.innerHTML = "Add income";
+    incomeSubmitBtn.innerHTML = "Add income";
+
+
+    incomeModal.show();
+
+
+})
+incomeModalElement.addEventListener("hidden.bs.modal",(event) => {
+    const inputIdElement = document.querySelector(`#hiddenInputId`);
+    if (inputIdElement) {
+        inputIdElement.remove();
+    }
+})
+expenseModalElement.addEventListener("hidden.bs.modal",(event) => {
+    const inputIdElement = document.querySelector(`#hiddenInputId`);
+    if (inputIdElement) {
+        inputIdElement.remove();
+    }
+
+})
